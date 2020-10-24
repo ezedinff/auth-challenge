@@ -114,7 +114,7 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
-        user.failedAttempts += user.failedAttempts; 
+        user.failedAttempts += 1; 
         return res
           .status(400)
           .json({ usernotfound: "Username or Password incorrect" });

@@ -32,14 +32,19 @@ const ResetPassword = ({ classes, auth, errors, dispath }) => {
   const history = useHistory();
   const onSubmit = () => {
     const confirmed = confirm.current.value === password.current.value;
+    setIsLoading(true);
     Axios.post("/api/users/reset-password", {
       phoneNumber: auth.user.phoneNumber,
       password: password.current.value,
     })
       .then((res) => {
+        setIsLoading(false);
         history.push("/login");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+      });
   };
   return (
     <Container component="main" maxWidth="xs">

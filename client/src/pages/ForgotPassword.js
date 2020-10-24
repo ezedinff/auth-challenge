@@ -30,6 +30,7 @@ const ForgotPassword = ({ classes, auth, errors, dispatch }) => {
   const loginPhone = useRef();
   const history = useHistory();
   const onSubmit = () => {
+    setIsLoading(true);
     Axios.post("/api/users/forgot-password", {
       phoneNumber: phoneFormater(loginPhone.current.value),
     })
