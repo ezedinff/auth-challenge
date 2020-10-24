@@ -88,8 +88,8 @@ const Login = ({ classes, auth, errors, dispatch }) => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          {errors["usernotfound"] && (
-            <Alert severity="error">{errors["usernotfound"]}</Alert>
+          {(errors["usernotfound"] || errors["notverified"]) && (
+            <Alert severity="error">{errors["usernotfound"] || errors["notverified"]}</Alert>
           )}
           {message && (
             <Alert severity="success">You have successfully logged in.</Alert>

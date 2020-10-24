@@ -83,16 +83,22 @@ router.post("/login", (req, res) => {
     if (!user) {
       return res.status(404).json({ usernotfound: "Username or Password incorrect" });
     }
-
+    if(user.failedAttempts >= 2) {
+      return res.status(404).json({ usernotfound: "you're account has been locked for repeated failed attempt." });
+    }
+    if(!user.isVerfied) {
+      return res.status(404).json({ notverified: "please verify your account." });
+    }
     // Check password
-    bcrypt.compare(password, user.password).then(isMatch => {
+    bcrypt.compare(password, user.password).then(async (isMatch) => {
       if (isMatch) {
         // User matched
         // Create JWT Payload
         const payload = {
           id: user.id
         };
-
+        user.failedAttempts = 0;
+        await user.save();
         // Sign token
         jwt.sign(
           payload,
@@ -108,6 +114,7 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
+        user.failedAttempts += user.failedAttempts; 
         return res
           .status(400)
           .json({ usernotfound: "Username or Password incorrect" });

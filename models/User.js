@@ -23,6 +23,14 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false
   },
+  failedAttempts: {
+    type: Number,
+    default: 0
+  },
+  isLocked: {
+    type: Boolean,
+    default: false
+  },
   date: {
     type: Date,
     default: Date.now
