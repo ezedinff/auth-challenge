@@ -6,8 +6,6 @@ const keys = require("../../config/keys");
 const passport = require("passport");
 
 // Load input validation
-const validateRegisterInput = require("../../validation/register");
-const validateLoginInput = require("../../validation/login");
 
 // Load User model
 const User = require("../../models/User");
@@ -19,14 +17,7 @@ router.get("/", (req, res) => res.send("users database"));
 // @access Public
 router.post("/register", (req, res) => {
   console.log(req.body);
-  // Form validation
-
-  // const { errors, isValid } = validateRegisterInput(req.body);
-
-  // // Check validation
-  // if (!isValid) {
-  //   return res.status(400).json(errors);
-  // }
+  //@TODO Form validation
 
   User.findOne({ phoneNumber: req.body.phoneNumber }).then(user => {
     if (user) {
@@ -67,17 +58,10 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
   // Form validation
 
-  // const { errors, isValid } = validateLoginInput(req.body);
-
-  // // Check validation
-  // if (!isValid) {
-  //   return res.status(400).json(errors);
-  // }
-
   const phoneNumber = req.body.phoneNumber;
   const password = req.body.password;
 
-  // Find user by email
+  // Find user by phoneNumber
   User.findOne({ phoneNumber }).then(user => {
     // Check if user exists
     if (!user) {
